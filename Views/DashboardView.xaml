@@ -1,0 +1,10 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace smart_spice.Views
+{
+class DashboardView
+{
+}
+}
