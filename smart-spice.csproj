@@ -10,8 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
