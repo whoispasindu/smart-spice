@@ -1,4 +1,4 @@
-﻿ususing SmartSpice.Models;
+﻿using SmartSpice.Models;
 
 namespace SmartSpice.Services;
 
