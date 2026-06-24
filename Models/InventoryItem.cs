@@ -4,6 +4,7 @@
 /// A stock line for a specific spice in a specific warehouse. Tracks the
 /// real-time quantity and the safety threshold used for low-stock alerts.
 /// </summary>
+/// //test
 public class InventoryItem
 {
     public int Id { get; set; }
