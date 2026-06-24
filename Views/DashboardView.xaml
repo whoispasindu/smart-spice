@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,4,20,20">
         <StackPanel>
-            <!-- ===== Welcome banner ===== -->
+            
             <Grid Margin="8,4,8,6">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
@@ -26,7 +26,7 @@
                 </Border>
             </Grid>
 
-            <!-- ===== KPI cards ===== -->
+            
             <ItemsControl ItemsSource="{Binding Kpis}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -58,7 +58,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <!-- ===== Row: AI prediction | Harvest donut | Health gauge ===== -->
+            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.15*"/>
@@ -82,7 +82,7 @@
                         <TextBlock Text="Predicted Sales — Next Month" FontSize="13" FontWeight="Bold"/>
                         <TextBlock Text="{Binding SalesMonthLabel}" Style="{StaticResource Caption}"/>
 
-                        <!-- Revenue highlight -->
+                       
                         <Border Background="{StaticResource PrimaryPaleBrush}" CornerRadius="12" Padding="16,13" Margin="0,12,0,0">
                             <Grid>
                                 <StackPanel VerticalAlignment="Center">
@@ -97,7 +97,7 @@
                             </Grid>
                         </Border>
 
-                        <!-- Detail stats -->
+                        
                         <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,16,0,14"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -114,7 +114,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <!-- High-season stock-up warning -->
+                       
                         <Border Background="#FFF3E0" CornerRadius="10" Padding="12,9" Margin="0,14,0,0"
                                 Visibility="{Binding SalesHighSeason, Converter={StaticResource BoolToVis}}">
                             <StackPanel>
@@ -125,7 +125,7 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Harvest Overview donut -->
+                
                 <Border Grid.Column="1" Style="{StaticResource Card}">
                     <StackPanel>
                         <Grid Margin="0,0,0,8">
@@ -140,7 +140,7 @@
                                 <ColumnDefinition Width="200"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <!-- Donut -->
+                            
                             <Grid Grid.Column="0" Width="200" Height="200">
                                 <ItemsControl ItemsSource="{Binding Donut}">
                                     <ItemsControl.ItemsPanel>
@@ -161,7 +161,7 @@
                                                Foreground="{StaticResource TextSecondaryBrush}"/>
                                 </StackPanel>
                             </Grid>
-                            <!-- Legend -->
+                            
                             <ItemsControl Grid.Column="1" ItemsSource="{Binding Donut}" VerticalAlignment="Center" Margin="18,0,0,0">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
@@ -184,7 +184,7 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Plantation Health Score gauge -->
+                
                 <Border Grid.Column="2" Style="{StaticResource Card}" Background="{StaticResource SpiceGradientBrush}" BorderThickness="0">
                     <StackPanel>
                         <TextBlock Text="Plantation Health Score" Foreground="White" FontWeight="Bold" FontSize="15"/>
@@ -203,14 +203,14 @@
                 </Border>
             </Grid>
 
-            <!-- ===== Row: Activities | Weather | Top stock ===== -->
+            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Recent Activities -->
+               
                 <Border Grid.Column="0" Style="{StaticResource Card}">
                     <StackPanel>
                         <Grid Margin="0,0,0,8">
@@ -242,7 +242,7 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Top Spice Stock -->
+               
                 <Border Grid.Column="1" Style="{StaticResource Card}">
                     <StackPanel>
                         <Grid Margin="0,0,0,8">
@@ -279,7 +279,7 @@
                 </Border>
             </Grid>
 
-            <!-- ===== Warehouse & Bin Capacity ===== -->
+            
             <Border Style="{StaticResource Card}">
                 <StackPanel>
                     <Grid Margin="0,0,0,10">
@@ -317,7 +317,7 @@
                 </StackPanel>
             </Border>
 
-            <!-- ===== Revenue Forecast banner ===== -->
+            
             <Border Style="{StaticResource Card}" Background="{StaticResource CreamBrush}" BorderThickness="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
