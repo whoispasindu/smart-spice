@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using smart_spice.Models;
 
 namespace SmartSpice.Models;
 
@@ -47,4 +46,4 @@ public class SpiceBatch
 
     public double? YieldPercent =>
         YieldLossPercent.HasValue ? Math.Round(100 - YieldLossPercent.Value, 2) : null;
-} 
+}
