@@ -1,12 +1,285 @@
-﻿<Window x:Class="smart_spice.MainWindow"
+﻿<Window x:Class="SmartSpice.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:smart_spice"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        xmlns:vm="clr-namespace:SmartSpice.ViewModels"
+        xmlns:views="clr-namespace:SmartSpice.Views"
+        Title="SmartSpice — Spice Management System" Icon="/Assets/Images/logo.ico"
+        Height="900" Width="1500" WindowStartupLocation="CenterScreen"
+        WindowState="Maximized" ResizeMode="CanResize"
+        MinHeight="600" MinWidth="1000"
+        Background="{StaticResource BackgroundBrush}">
 
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
+            <views:DashboardView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:InventoryViewModel}">
+            <views:InventoryView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:FarmersViewModel}">
+            <views:FarmersView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BatchesViewModel}">
+            <views:BatchesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:QualityViewModel}">
+            <views:QualityView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SalesViewModel}">
+            <views:SalesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:WarehousesViewModel}">
+            <views:WarehousesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:EmployeesViewModel}">
+            <views:EmployeesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SalesForecastViewModel}">
+            <views:SalesForecastView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:NotificationsViewModel}">
+            <views:NotificationsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ReportsViewModel}">
+            <views:ReportsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <views:SettingsView/>
+        </DataTemplate>
+
+        <!-- Reusable nav item: icon + collapsible label -->
+        <Style x:Key="NavLabel" TargetType="TextBlock">
+            <Setter Property="Margin" Value="12,0,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Visibility"
+                    Value="{Binding IsSidebarExpanded, Converter={StaticResource BoolToVis}}"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding IsSidebarExpanded, Converter={StaticResource SidebarWidth}}"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ============ Sidebar ============ -->
+        <Border Grid.Column="0" Background="{StaticResource SidebarGradientBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Brand -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="22,22,0,16">
+                    <Image Source="/Assets/Images/logo.png" Width="36" Height="36" VerticalAlignment="Center"/>
+                    <StackPanel Margin="10,0,0,0" VerticalAlignment="Center"
+                                Visibility="{Binding IsSidebarExpanded, Converter={StaticResource BoolToVis}}">
+                        <TextBlock Text="SmartSpice" Foreground="White" FontSize="17" FontWeight="Bold"/>
+                        <TextBlock Text="Spice Management System" Foreground="#9FBE97" FontSize="10.5"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Nav items -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,6,0,0">
+                    <StackPanel>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowDashboard, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=dashboard, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="dashboard">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="▦" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Dashboard" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowFarmers, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=farmers, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="farmers">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🌿" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Plantations / Farmers" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowEmployees, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=employees, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="employees">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="👥" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Employees" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowBatches, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=batches, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="batches">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🧺" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Harvest &amp; Processing" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowQuality, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=quality, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="quality">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="✔" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Quality Control" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowInventory, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=inventory, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="inventory">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📦" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Inventory" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowSales, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=sales, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="sales">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🚚" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Dispatch Products" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowWarehouses, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=warehouses, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="warehouses">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🏬" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Warehouses" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowForecast, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=forecast, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="forecast">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🤖" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="AI Sales Prediction" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowNotifications, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=notifications, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="notifications">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="🔔" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Notifications" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowAudit, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=audit, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="audit">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="📊" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Reports &amp; Audit" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource NavButton}" GroupName="nav"
+                                     Visibility="{Binding ShowSettings, Converter={StaticResource BoolToVis}}"
+                                     IsChecked="{Binding ActiveKey, Converter={StaticResource KeyToBool}, ConverterParameter=settings, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="settings">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="⚙" FontSize="15" Width="22" TextAlignment="Center"/>
+                                <TextBlock Text="Settings" Style="{StaticResource NavLabel}"/>
+                            </StackPanel>
+                        </RadioButton>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Plantation photo at the bottom -->
+                <Border Grid.Row="2" Height="180">
+                    <Border.Background>
+                        <ImageBrush Stretch="UniformToFill">
+                            <ImageBrush.ImageSource>
+                                <BitmapImage UriSource="/Assets/Images/sidebar-spices.jpg" DecodePixelWidth="360"/>
+                            </ImageBrush.ImageSource>
+                        </ImageBrush>
+                    </Border.Background>
+                    <Border>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#CC0C2412" Offset="0"/>
+                                <GradientStop Color="#330C2412" Offset="0.5"/>
+                                <GradientStop Color="#000C2412" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ============ Content ============ -->
+        <DockPanel Grid.Column="1">
+            <!-- Top bar -->
+            <Border DockPanel.Dock="Top" Background="{StaticResource BackgroundBrush}" Height="78">
+                <Grid Margin="22,0,28,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Hamburger (toggles sidebar) -->
+                    <Button Grid.Column="0" Command="{Binding ToggleSidebarCommand}" Cursor="Hand"
+                            Background="Transparent" BorderThickness="0" Margin="0,0,18,0" Padding="8">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="hb" Width="40" Height="40" CornerRadius="10" Background="Transparent">
+                                    <TextBlock Text="☰" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               Foreground="{StaticResource TextPrimaryBrush}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="hb" Property="Background" Value="{StaticResource PrimaryPaleBrush}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Right cluster -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Style="{StaticResource GhostButton}" Padding="10" Margin="0,0,18,0"
+                                BorderBrush="Transparent"
+                                Command="{Binding NavigateCommand}" CommandParameter="notifications">
+                            <Grid Width="22" Height="22">
+                                <TextBlock Text="🔔" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Border Background="{StaticResource DangerBrush}" CornerRadius="9" MinWidth="17" Height="17"
+                                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-6,-8,0" Padding="4,0"
+                                        Visibility="{Binding UnreadCount, Converter={StaticResource CountToVis}}">
+                                    <TextBlock Text="{Binding UnreadCount}" Foreground="White" FontSize="10" FontWeight="Bold"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </Button>
+
+                        <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource SpiceGradientBrush}">
+                            <TextBlock Text="{Binding UserInitials}" Foreground="White" FontWeight="Bold"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                        </Border>
+                        <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding UserName}" FontWeight="SemiBold" FontSize="13"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock Text="{Binding UserRole}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                        </StackPanel>
+                        <Button Content="Sign Out" Style="{StaticResource GhostButton}" Margin="16,0,0,0"
+                                Click="Logout_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Active page -->
+            <ContentControl Content="{Binding CurrentPage}"/>
+        </DockPanel>
     </Grid>
 </Window>
+
