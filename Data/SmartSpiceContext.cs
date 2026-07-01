@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartSpice.Models;
 using System.IO;
-using System.Reflection.Emit;
 using System.Windows.Controls;
 
 namespace SmartSpice.Data;
@@ -12,19 +11,19 @@ namespace SmartSpice.Data;
 /// </summary>
 public class SmartSpiceContext : DbContext
 {
-    // TODO: Review usage of Employees DbSet.
-    // TODO: Review usage of Farmers DbSet.
-    // TODO: Review usage of Buyers DbSet.
-    // TODO: Review usage of Warehouses DbSet.
-    // TODO: Review usage of InventoryItems DbSet.
-    // TODO: Review usage of SpiceBatches DbSet.
-    // TODO: Review usage of ProcessingRecords DbSet.
-    // TODO: Review usage of QualityInspections DbSet.
-    // TODO: Review usage of Orders DbSet.
-    // TODO: Review usage of OrderItems DbSet.
-    // TODO: Review usage of Notifications.
-    // TODO: Review usage of AuditLogs DbSet.
-    // TODO: Review usage of SalesRecords DbSet.
+    public DbSet<Employee> Employees => Set<Employee>();
+    public DbSet<Farmer> Farmers => Set<Farmer>();
+    public DbSet<Buyer> Buyers => Set<Buyer>();
+    public DbSet<Warehouse> Warehouses => Set<Warehouse>();
+    public DbSet<InventoryItem> InventoryItems => Set<InventoryItem>();
+    public DbSet<SpiceBatch> SpiceBatches => Set<SpiceBatch>();
+    public DbSet<ProcessingRecord> ProcessingRecords => Set<ProcessingRecord>();
+    public DbSet<QualityInspection> QualityInspections => Set<QualityInspection>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+    public DbSet<Notification> Notifications => Set<Notification>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<SalesRecord> SalesRecords => Set<SalesRecord>();
 
     /// <summary>Absolute path to the SQLite database file in the app's data folder.</summary>
     public static string DbPath
