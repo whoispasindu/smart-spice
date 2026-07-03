@@ -16,4 +16,3 @@
     <h:PercentToStarConverter x:Key="PercentToStar"/>
     <h:PercentToLevelBrushConverter x:Key="PercentToLevelBrush"/>
 </ResourceDictionary>
-
