@@ -5,8 +5,6 @@ using System.Windows.Controls.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
-using smart_spice.Helpers;
-using smart_spice.Models;
 using SmartSpice.Data;
 using SmartSpice.Helpers;
 using SmartSpice.Models;
@@ -259,3 +257,4 @@ public partial class BatchesViewModel : ViewModelBase, ISearchable
         LoadRecords();
     }
 }
+
