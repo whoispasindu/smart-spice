@@ -50,6 +50,15 @@ public class SmartSpiceContext : DbContext
         b.Entity<Buyer>().Property(x => x.OutstandingBalance).HasPrecision(18, 2);
 
         b.Entity<Employee>().HasIndex(e => e.Username).IsUnique();
+
+        // A batch keeps its records; deleting a farmer must not cascade-wipe history.
+        b.Entity<SpiceBatch>()
+            .HasOne(s => s.Farmer).WithMany(f => f.Batches)
+            .HasForeignKey(s => s.FarmerId).OnDelete(DeleteBehavior.Restrict);
+
+        b.Entity<Order>()
+            .HasOne(o => o.Buyer).WithMany(x => x.Orders)
+            .HasForeignKey(o => o.BuyerId).OnDelete(DeleteBehavior.Restrict);
     }
 }
     
