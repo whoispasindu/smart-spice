@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace smart_spice.Views
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for BatchesView.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class BatchesView : UserControl
     {
-        public UserControl1()
+        public BatchesView()
         {
             InitializeComponent();
         }
