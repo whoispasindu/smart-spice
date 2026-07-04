@@ -1,5 +1,4 @@
 ﻿using SmartSpice.Services;
-using System.Security.Authentication;
 using System.Windows;
 using System.Windows.Input;
 

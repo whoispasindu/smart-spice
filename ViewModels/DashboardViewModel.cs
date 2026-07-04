@@ -9,6 +9,7 @@ using SmartSpice.Services;
 
 namespace SmartSpice.ViewModels;
 
+// ---------- Small presentation models for the dashboard ----------
 
 public class KpiCard
 {
@@ -56,7 +57,7 @@ public class DashboardViewModel : ViewModelBase
     public ObservableCollection<BarRow> WarehouseBars { get; } = new();
     public ObservableCollection<ActivityRow> Activities { get; } = new();
 
-    // AI sales-forecast feature 
+    // AI sales-forecast feature card (next month)
     public string SalesMonthLabel { get; private set; } = "—";
     public string SalesUnits { get; private set; } = "—";
     public string SalesRevenue { get; private set; } = "—";
@@ -65,14 +66,16 @@ public class DashboardViewModel : ViewModelBase
     public bool SalesHighSeason { get; private set; }
     public string SalesWarning { get; private set; } = string.Empty;
 
-    
+    // Donut centre
     public string DonutTotal { get; private set; } = "0";
 
+    // Health gauge
     public Geometry GaugeTrack { get; private set; } = Geometry.Empty;
     public Geometry GaugeValue { get; private set; } = Geometry.Empty;
     public int HealthScore { get; private set; } = 0;
     public string HealthLabel { get; private set; } = "Good";
 
+    // Insight banner
     public string InsightText { get; private set; } = string.Empty;
     public string RevenueForecast { get; private set; } = "—";
     public string RevenueForecastTrend { get; private set; } = "";
@@ -105,13 +108,15 @@ public class DashboardViewModel : ViewModelBase
         BuildActivities(db);
         BuildInsight(db);
 
+        // Refresh all bindings — many dashboard values are plain (non-observable)
+        // properties set here, after the view may have already bound.
         OnPropertyChanged(string.Empty);
     }
 
     private static Brush LevelBrush(double percent) => new SolidColorBrush(
-        percent >= 90 ? Color.FromRgb(0xD1, 0x43, 0x43)  
-      : percent >= 75 ? Color.FromRgb(0xEF, 0x8A, 0x1F)   
-      : Color.FromRgb(0x3E, 0x8E, 0x2E));                 
+        percent >= 90 ? Color.FromRgb(0xD1, 0x43, 0x43)   // red — nearly full
+      : percent >= 75 ? Color.FromRgb(0xEF, 0x8A, 0x1F)   // amber
+      : Color.FromRgb(0x3E, 0x8E, 0x2E));                 // green
 
     private void BuildWarehouses(SmartSpiceContext db)
     {
@@ -128,6 +133,7 @@ public class DashboardViewModel : ViewModelBase
             });
         }
     }
+
     private void BuildKpis(SmartSpiceContext db)
     {
         int farmers = db.Farmers.Count();
@@ -166,6 +172,7 @@ public class DashboardViewModel : ViewModelBase
 
     private void BuildDonut(SmartSpiceContext db)
     {
+        // Harvest by spice type (raw weight), top 4 + others.
         var groups = db.SpiceBatches.AsEnumerable()
             .GroupBy(b => b.SpiceType)
             .Select(g => new { Name = g.Key, Kg = g.Sum(b => b.RawWeightKg) })
@@ -292,4 +299,3 @@ public class DashboardViewModel : ViewModelBase
         return t.ToString("MMM d, yyyy");
     }
 }
-
