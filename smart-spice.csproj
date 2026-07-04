@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
-    <RootNamespace>smart_spice</RootNamespace>
+    <RootNamespace>SmartSpice</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -12,6 +12,23 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.9" />
   </ItemGroup>
+	
+	<ItemGroup>
+    <Resource Include="Assets\Images\*.jpg" />
+    <Resource Include="Assets\Images\*.png" />
+    <Resource Include="Assets\Images\*.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Data\sales_monthly.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <ApplicationIcon>Assets\Images\logo.ico</ApplicationIcon>
+  </PropertyGroup>
 
 </Project>
