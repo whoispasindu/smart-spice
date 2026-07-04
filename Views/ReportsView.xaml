@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="SmartSpice.Views.ReportsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,4,20,20">
+        <StackPanel>
+            <!-- Header -->
+            <Grid Margin="8,4,8,4">
+                <StackPanel>
+                    <TextBlock Text="Reports &amp; Analytics" Style="{StaticResource H1}"/>
+                    <TextBlock Text="{Binding GeneratedAt}" Style="{StaticResource Caption}" Margin="0,2,0,0"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Summary metric cards -->
+            <ItemsControl ItemsSource="{Binding Summary}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="4"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource Card}" Padding="16">
+                            <StackPanel>
+                                <Border Width="44" Height="44" CornerRadius="12" HorizontalAlignment="Left" Background="{Binding Accent}">
+                                    <TextBlock Text="{Binding Icon}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <TextBlock Text="{Binding Label}" Style="{StaticResource Caption}" Margin="0,12,0,2"/>
+                                <TextBlock Text="{Binding Value}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                <TextBlock Text="{Binding Sub}" Style="{StaticResource Caption}" FontSize="11" Margin="0,2,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Production + Quality -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Production report -->
+                <Border Grid.Column="0" Style="{StaticResource Card}">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,10">
+                            <TextBlock Text="Production Report — by Spice" Style="{StaticResource H2}"/>
+                            <Button Content="⬇ Export CSV" Style="{StaticResource GhostButton}" HorizontalAlignment="Right"
+                                    Command="{Binding ExportProductionCommand}"/>
+                        </Grid>
+                        <DataGrid ItemsSource="{Binding Production}" HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Spice" Binding="{Binding Spice}" Width="*"/>
+                                <DataGridTextColumn Header="Batches" Binding="{Binding Batches}" Width="80"/>
+                                <DataGridTextColumn Header="Raw (kg)" Binding="{Binding RawKg, StringFormat=N0}" Width="100"/>
+                                <DataGridTextColumn Header="Processed (kg)" Binding="{Binding ProcessedKg, StringFormat=N0}" Width="120"/>
+                                <DataGridTextColumn Header="Yield Loss %" Binding="{Binding YieldLossPct, StringFormat=N1}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Quality grade distribution -->
+                <Border Grid.Column="1" Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="Quality Grade Distribution" Style="{StaticResource H2}" Margin="0,0,0,10"/>
+                        <ItemsControl ItemsSource="{Binding Grades}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,7">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="36"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Grade}" VerticalAlignment="Center" FontSize="13"/>
+                                        <Border Grid.Column="1" Background="#EAEFE6" CornerRadius="5" Height="14" HorizontalAlignment="Left" Width="150">
+                                            <Border Background="{Binding Brush}" CornerRadius="5" Height="14" HorizontalAlignment="Left"
+                                                    Width="{Binding Fraction, Converter={StaticResource FractionToWidth}, ConverterParameter=150}"/>
+                                        </Border>
+                                        <TextBlock Grid.Column="2" Text="{Binding Count}" HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center" FontWeight="SemiBold" FontSize="13"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Sales + Inventory valuation -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Sales report -->
+                <Border Grid.Column="0" Style="{StaticResource Card}">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,10">
+                            <TextBlock Text="Sales Report — by Buyer" Style="{StaticResource H2}"/>
+                            <Button Content="⬇ Export CSV" Style="{StaticResource GhostButton}" HorizontalAlignment="Right"
+                                    Command="{Binding ExportSalesCommand}"/>
+                        </Grid>
+                        <DataGrid ItemsSource="{Binding Sales}" HeadersVisibility="Column">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Buyer" Binding="{Binding Buyer}" Width="*"/>
+                                <DataGridTextColumn Header="Market" Binding="{Binding Market}" Width="90"/>
+                                <DataGridTextColumn Header="Orders" Binding="{Binding Orders}" Width="80"/>
+                                <DataGridTextColumn Header="Revenue (LKR)" Binding="{Binding Revenue, StringFormat=N0}" Width="140"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Inventory valuation -->
+                <Border Grid.Column="1" Style="{StaticResource Card}">
+                    <StackPanel>
+                        <TextBlock Text="Inventory Valuation" Style="{StaticResource H2}" Margin="0,0,0,10"/>
+                        <ItemsControl ItemsSource="{Binding Valuation}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#F6FAF3" CornerRadius="8" Padding="12,10" Margin="0,4">
+                                        <Grid>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Category}" FontWeight="SemiBold" FontSize="13"/>
+                                                <TextBlock Text="{Binding Kg, StringFormat={}{0:N0} kg in stock}" Style="{StaticResource Caption}"/>
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding Value, StringFormat={}LKR {0:N0}}" HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Audit trail -->
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,10">
+                        <StackPanel>
+                            <TextBlock Text="Audit Trail" Style="{StaticResource H2}"/>
+                            <TextBlock Text="Every critical action logged against a user for accountability."
+                                       Style="{StaticResource Caption}" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <Button Content="⬇ Export CSV" Style="{StaticResource GhostButton}" HorizontalAlignment="Right"
+                                VerticalAlignment="Top" Command="{Binding ExportAuditCommand}"/>
+                    </Grid>
+                    <DataGrid ItemsSource="{Binding Logs}" MaxHeight="360" HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp, StringFormat=yyyy-MM-dd HH:mm:ss}" Width="170"/>
+                            <DataGridTextColumn Header="User" Binding="{Binding Username}" Width="120"/>
+                            <DataGridTextColumn Header="Action" Binding="{Binding Action}" Width="120"/>
+                            <DataGridTextColumn Header="Entity" Binding="{Binding Entity}" Width="140"/>
+                            <DataGridTextColumn Header="Details" Binding="{Binding Details}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
+  

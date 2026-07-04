@@ -38,23 +38,27 @@ public class SmartSpiceContext : DbContext
         }
     }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+        => options.UseSqlite($"Data Source={DbPath}");
+
     protected override void OnModelCreating(ModelBuilder b)
     {
-        // TODO: Review precision for InventoryItem.UnitPricePerKg and update if needed.
         // Money precision (honoured by SQL Server; SQLite stores as TEXT/REAL).
+        b.Entity<InventoryItem>().Property(i => i.UnitPricePerKg).HasPrecision(18, 2);
+        b.Entity<OrderItem>().Property(i => i.UnitPricePerKg).HasPrecision(18, 2);
+        b.Entity<Buyer>().Property(x => x.CreditLimit).HasPrecision(18, 2);
+        b.Entity<Buyer>().Property(x => x.OutstandingBalance).HasPrecision(18, 2);
 
-        // TODO: Review precision for OrderItem.UnitPricePerKg and update if needed.
+        b.Entity<Employee>().HasIndex(e => e.Username).IsUnique();
 
-        // TODO: Review precision for Buyer.CreditLimit and update if needed.
-
-        // TODO: Review precision for Buyer.OutstandingBalance and update if needed.
-
-        // TODO: Confirm Employee.Username should be indexed and unique.
-
-        // TODO: Confirm delete behaviour: keep SpiceBatch records when a Farmer is deleted.
         // A batch keeps its records; deleting a farmer must not cascade-wipe history.
+        b.Entity<SpiceBatch>()
+            .HasOne(s => s.Farmer).WithMany(f => f.Batches)
+            .HasForeignKey(s => s.FarmerId).OnDelete(DeleteBehavior.Restrict);
 
-        // TODO: Confirm delete behaviour: restrict deleting Buyer when Orders exist.
+        b.Entity<Order>()
+            .HasOne(o => o.Buyer).WithMany(x => x.Orders)
+            .HasForeignKey(o => o.BuyerId).OnDelete(DeleteBehavior.Restrict);
     }
 }
     
