@@ -1,10 +1,11 @@
-using System.Collections.ObjectModel;
-using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SmartSpice.Data;
 using SmartSpice.Models;
 using SmartSpice.Services;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace SmartSpice.ViewModels;
 
@@ -18,26 +19,25 @@ public partial class FarmersViewModel : ViewModelBase, ISearchable
     [ObservableProperty] private Farmer? _selected;
     [ObservableProperty] private bool _isEditing;
 
-    [ObservableProperty] private int _totalFarmers;\
+    [ObservableProperty] private int _totalFarmers;
     [ObservableProperty] private string _totalArea = "0";
     [ObservableProperty] private int _organicCount;
     [ObservableProperty] private int _regionCount;
 
     public FarmersViewModel() => Title = "Plantations / Farmers";
 
-    public override vvoid Load() => Refresh();
+    public override void Load() => Refresh();
 
-    public void Refresh()
+    private void Refresh()
     {
         using (var db = new SmartSpiceContext())
-            _all = db.Farmers.OrderBy(f => f.Name).ToList();
-        
+            _all = db.Farmers.OrderBy(f => f.FullName).ToList();
+
         TotalFarmers = _all.Count;
         TotalArea = $"{_all.Sum(f => f.FarmSizeAcres):N1}";
         OrganicCount = _all.Count(f => f.IsCertifiedOrganic);
-        ReginCount = _all.Select(f => f.Region).Distinct(StringComparer.OridinalIgnoreCase).Count();
+        RegionCount = _all.Select(f => f.Region).Distinct(StringComparer.OrdinalIgnoreCase).Count();
         ApplyFilter();
-
     }
 
     public void ApplySearch(string? text)
@@ -51,22 +51,20 @@ public partial class FarmersViewModel : ViewModelBase, ISearchable
         IEnumerable<Farmer> q = _all;
         if (_search.Length > 0)
             q = q.Where(f =>
-            f.FullName.Contains(_search, StringComparison.OrdinalIgnoreCase) ||
-            f.FarmName.Contains(_search, StringComparison.OrdinalIgnoreCase) ||
-            f.Region,Contains(_search, StringComparison.OrdinalIgnoreCase) ||
-            f.PrimaryCrops.Contains(_search, StringComparison.OrdinalIgnoreCase));
+                f.FullName.Contains(_search, StringComparison.OrdinalIgnoreCase) ||
+                f.FarmName.Contains(_search, StringComparison.OrdinalIgnoreCase) ||
+                f.Region.Contains(_search, StringComparison.OrdinalIgnoreCase) ||
+                f.PrimaryCrops.Contains(_search, StringComparison.OrdinalIgnoreCase));
 
         Farmers.Clear();
-        foreach (var f in q) Farmers .Add(f);
-    
+        foreach (var f in q) Farmers.Add(f);
     }
 
     [RelayCommand]
     private void New()
     {
-        Selected = new Farmer { Region - "Matale", ReliabilityScore = 80 };
-        _isEditing = true;
-
+        Selected = new Farmer { Region = "Matale", ReliabilityScore = 80 };
+        IsEditing = true;
     }
 
     [RelayCommand]
@@ -76,13 +74,14 @@ public partial class FarmersViewModel : ViewModelBase, ISearchable
         Selected = Clone(f);
         IsEditing = true;
     }
+
     [RelayCommand]
     private void Save()
     {
         if (Selected == null) return;
         if (string.IsNullOrWhiteSpace(Selected.FullName))
         {
-            MessageBox.Show("Farmer name is required.", "Validation", MessageBowButton.Ok.MessageBoxImage.Warning);
+            MessageBox.Show("Farmer name is required.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
         using (var db = new SmartSpiceContext())
@@ -90,10 +89,10 @@ public partial class FarmersViewModel : ViewModelBase, ISearchable
             if (Selected.Id == 0) db.Farmers.Add(Selected);
             else db.Farmers.Update(Selected);
             db.SaveChanges();
-
         }
-        ServiceHub.Audit.Log(_selected.Id == 0 ? "CREATE" : "UPDATE", "Farmer", _selected.FullName);
+        ServiceHub.Audit.Log(Selected.Id == 0 ? "CREATE" : "UPDATE", "Farmer", Selected.FullName);
         IsEditing = false;
+        Selected = null;
         Refresh();
     }
 
@@ -108,20 +107,17 @@ public partial class FarmersViewModel : ViewModelBase, ISearchable
     private void Delete()
     {
         if (Selected == null || Selected.Id == 0) return;
-        if (MessageBow.Show($"Delete farmer '{Selected.FullName}'?", "Confirm",
+        if (MessageBox.Show($"Delete farmer '{Selected.FullName}'?", "Confirm",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return;
-
         try
         {
             using var db = new SmartSpiceContext();
-            var f = db.Farmers.Fimd(Selected.ID);
             var f = db.Farmers.Find(Selected.Id);
             if (f != null) { db.Farmers.Remove(f); db.SaveChanges(); }
             ServiceHub.Audit.Log("DELETE", "Farmer", Selected.FullName);
             IsEditing = false;
-            _selected = null;
+            Selected = null;
             Refresh();
-
         }
         catch (Exception)
         {
