@@ -140,5 +140,5 @@ public partial class FarmersViewModel : ViewModelBase, ISearchable
         BankAccount = s.BankAccount,
         IsCertifiedOrganic = s.IsCertifiedOrganic,
         ReliabilityScore = s.ReliabilityScore
-    };
+    };  
 }

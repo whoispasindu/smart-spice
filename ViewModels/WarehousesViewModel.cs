@@ -116,4 +116,4 @@ public partial class WarehousesViewModel : ViewModelBase
         Selected = null;
         Refresh();
     }
-}
+} 
