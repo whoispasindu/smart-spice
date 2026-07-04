@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="SmartSpice.Views.InventoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <!-- ===== Main content ===== -->
+        <DockPanel Margin="20,4,20,16">
+            <!-- Header -->
+            <Grid DockPanel.Dock="Top" Margin="8,4,8,8">
+                <StackPanel>
+                    <TextBlock Text="Inventory" Style="{StaticResource H1}"/>
+                    <TextBlock Text="Manage spice inventory and stock." Style="{StaticResource Caption}" FontSize="13"/>
+                </StackPanel>
+                <Button Content="+ Add Stock" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Command="{Binding NewCommand}"/>
+            </Grid>
+
+            <!-- Stat cards -->
+            <UniformGrid DockPanel.Dock="Top" Columns="4">
+                <Border Style="{StaticResource StatCard}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="44" Height="44" CornerRadius="12" Background="#E3F1DF">
+                            <TextBlock Text="📦" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Total Stock" Style="{StaticResource Caption}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding TotalStock}" FontSize="20" FontWeight="Bold"/>
+                                <TextBlock Text="KG" FontSize="11" VerticalAlignment="Bottom" Margin="4,0,0,3"
+                                           Foreground="{StaticResource TextSecondaryBrush}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatCard}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="44" Height="44" CornerRadius="12" Background="#FBEFD2">
+                            <TextBlock Text="⚠" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Low Stock Items" Style="{StaticResource Caption}"/>
+                            <TextBlock Text="{Binding LowStockCount}" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatCard}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="44" Height="44" CornerRadius="12" Background="#F8E2DF">
+                            <TextBlock Text="🚫" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Out of Stock" Style="{StaticResource Caption}"/>
+                            <TextBlock Text="{Binding OutOfStockCount}" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource StatCard}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="44" Height="44" CornerRadius="12" Background="#DDEAF6">
+                            <TextBlock Text="🏬" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="Total Warehouses" Style="{StaticResource Caption}"/>
+                            <TextBlock Text="{Binding WarehouseCount}" FontSize="20" FontWeight="Bold"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Table card -->
+            <Border Style="{StaticResource Card}" Padding="6,2,6,6">
+                <DockPanel>
+                    <!-- Filter tabs -->
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="12,10,0,6">
+                        <RadioButton Style="{StaticResource FilterTab}" GroupName="invf" IsChecked="True"
+                                     Content="All Spices" Command="{Binding SetFilterCommand}" CommandParameter="All"/>
+                        <RadioButton Style="{StaticResource FilterTab}" GroupName="invf"
+                                     Content="Raw Materials" Command="{Binding SetFilterCommand}" CommandParameter="RawMaterial"/>
+                        <RadioButton Style="{StaticResource FilterTab}" GroupName="invf"
+                                     Content="Processed Powder" Command="{Binding SetFilterCommand}" CommandParameter="ProcessedPowder"/>
+                        <RadioButton Style="{StaticResource FilterTab}" GroupName="invf"
+                                     Content="Packaging" Command="{Binding SetFilterCommand}" CommandParameter="Packaging"/>
+                    </StackPanel>
+
+                    <DataGrid ItemsSource="{Binding Items}" SelectedItem="{Binding Selected, Mode=TwoWay}" BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Spice" Binding="{Binding SpiceName}" Width="*"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="150"/>
+                            <DataGridTextColumn Header="Warehouse" Binding="{Binding Warehouse.Name}" Width="170"/>
+                            <DataGridTextColumn Header="Quantity (KG)" Binding="{Binding QuantityKg, StringFormat=N0}" Width="120"/>
+                            <DataGridTextColumn Header="Reorder (KG)" Binding="{Binding ReorderLevelKg, StringFormat=N0}" Width="110"/>
+                            <DataGridTemplateColumn Header="Status" Width="130">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource StatusPill}"
+                                                Background="{Binding StockStatus, Converter={StaticResource StatusBrush}, ConverterParameter=bg}">
+                                            <TextBlock Text="{Binding StockStatus}" FontSize="11.5" FontWeight="SemiBold"
+                                                       Foreground="{Binding StockStatus, Converter={StaticResource StatusBrush}}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Action" Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{StaticResource RowAction}" Content="⋯"
+                                                Command="{Binding DataContext.EditRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </Border>
+        </DockPanel>
+
+        <!-- ===== Edit overlay ===== -->
+        <Grid Background="#66000000" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}">
+            <Border Style="{StaticResource Card}" Width="420" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Padding="24">
+                <StackPanel>
+                    <TextBlock Text="Stock Item" Style="{StaticResource H2}" Margin="0,0,0,4"/>
+                    <TextBlock Text="SPICE NAME" Style="{StaticResource FieldLabel}"/>
+                    <TextBox Text="{Binding Selected.SpiceName, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="CATEGORY" Style="{StaticResource FieldLabel}"/>
+                    <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding Selected.Category}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0,0,6,0">
+                            <TextBlock Text="QUANTITY (KG)" Style="{StaticResource FieldLabel}"/>
+                            <TextBox Text="{Binding Selected.QuantityKg, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="6,0,0,0">
+                            <TextBlock Text="REORDER (KG)" Style="{StaticResource FieldLabel}"/>
+                            <TextBox Text="{Binding Selected.ReorderLevelKg, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock Text="UNIT PRICE / KG (LKR)" Style="{StaticResource FieldLabel}"/>
+                    <TextBox Text="{Binding Selected.UnitPricePerKg, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Text="WAREHOUSE" Style="{StaticResource FieldLabel}"/>
+                    <ComboBox ItemsSource="{Binding Warehouses}" DisplayMemberPath="Name"
+                              SelectedValuePath="Id" SelectedValue="{Binding Selected.WarehouseId}"/>
+                    <Grid Margin="0,18,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Content="Delete" Style="{StaticResource GhostButton}"
+                                Foreground="{StaticResource DangerBrush}" BorderBrush="{StaticResource DangerBrush}"
+                                Command="{Binding DeleteCommand}"/>
+                        <Button Grid.Column="1" Content="Cancel" Style="{StaticResource GhostButton}"
+                                HorizontalAlignment="Right" Margin="0,0,8,0" Command="{Binding CancelCommand}"/>
+                        <Button Grid.Column="2" Content="Save" Style="{StaticResource PrimaryButton}"
+                                Command="{Binding SaveCommand}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,4 +1,4 @@
-﻿<Application x:Class="SmartSpice.App"
+<Application x:Class="SmartSpice.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SmartSpice">
@@ -12,4 +12,5 @@
         </ResourceDictionary>
     </Application.Resources>
 </Application>
+
 

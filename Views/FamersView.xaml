@@ -1,0 +1,157 @@
+<UserControl x:Class="SmartSpice.Views.FarmersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Grid>
+		<DockPanel Margin="20,4,20,16">
+			<!-- Header -->
+			<Grid DockPanel.Dock="Top" Margin="8,4,8,8">
+				<StackPanel>
+					<TextBlock Text="Plantations / Farmers" Style="{StaticResource H1}"/>
+					<TextBlock Text="Manage registered farm suppliers and plantation sections." Style="{StaticResource Caption}" FontSize="13"/>
+				</StackPanel>
+				<Button Content="+ Add Farmer" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Command="{Binding NewCommand}"/>
+			</Grid>
+
+			<!-- Stat cards -->
+			<UniformGrid DockPanel.Dock="Top" Columns="4">
+				<Border Style="{StaticResource StatCard}">
+					<StackPanel Orientation="Horizontal">
+						<Border Width="44" Height="44" CornerRadius="12" Background="#E3F1DF">
+							<TextBlock Text="🧑‍🌾" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+						<StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+							<TextBlock Text="Total Farmers" Style="{StaticResource Caption}"/>
+							<TextBlock Text="{Binding TotalFarmers}" FontSize="20" FontWeight="Bold"/>
+						</StackPanel>
+					</StackPanel> 
+				</Border>
+				<Border Style="{StaticResource StatCard}">
+					<StackPanel Orientation="Horizontal">
+						<Border Width="44" Height="44" CornerRadius="12" Background="#FBEFD2">
+							<TextBlock Text="🗺" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+						<StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+							<TextBlock Text="Total Farm Area" Style="{StaticResource Caption}"/>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="{Binding TotalArea}" FontSize="20" FontWeight="Bold"/>
+								<TextBlock Text="Acres" FontSize="11" VerticalAlignment="Bottom" Margin="4,0,0,3"
+                                           Foreground="{StaticResource TextSecondaryBrush}"/>
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</Border>
+				<Border Style="{StaticResource StatCard}">
+					<StackPanel Orientation="Horizontal">
+						<Border Width="44" Height="44" CornerRadius="12" Background="#E3F1DF">
+							<TextBlock Text="🌱" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+						<StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+							<TextBlock Text="Certified Organic" Style="{StaticResource Caption}"/>
+							<TextBlock Text="{Binding OrganicCount}" FontSize="20" FontWeight="Bold"/>
+						</StackPanel>
+					</StackPanel>
+				</Border>
+				<Border Style="{StaticResource StatCard}">
+					<StackPanel Orientation="Horizontal">
+						<Border Width="44" Height="44" CornerRadius="12" Background="#DDEAF6">
+							<TextBlock Text="📍" FontSize="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+						<StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+							<TextBlock Text="Regions" Style="{StaticResource Caption}"/>
+							<TextBlock Text="{Binding RegionCount}" FontSize="20" FontWeight="Bold"/>
+						</StackPanel>
+					</StackPanel>
+				</Border>
+			</UniformGrid>
+
+			<!-- Table -->
+			<Border Style="{StaticResource Card}" Padding="6">
+				<DataGrid ItemsSource="{Binding Farmers}" SelectedItem="{Binding Selected, Mode=TwoWay}" BorderThickness="0">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Name" Binding="{Binding FullName}" Width="*"/>
+						<DataGridTextColumn Header="Farm / Section" Binding="{Binding FarmName}" Width="*"/>
+						<DataGridTextColumn Header="Region" Binding="{Binding Region}" Width="120"/>
+						<DataGridTextColumn Header="Crops" Binding="{Binding PrimaryCrops}" Width="160"/>
+						<DataGridTextColumn Header="Acres" Binding="{Binding FarmSizeAcres, StringFormat=N1}" Width="80"/>
+						<DataGridTextColumn Header="Score" Binding="{Binding ReliabilityScore, StringFormat=N0}" Width="70"/>
+						<DataGridTemplateColumn Header="Status" Width="120">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Border Style="{StaticResource StatusPill}" Background="#E3F1DF">
+										<TextBlock FontSize="11.5" FontWeight="SemiBold" Foreground="#2E7D32">
+											<TextBlock.Style>
+												<Style TargetType="TextBlock">
+													<Setter Property="Text" Value="Conventional"/>
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding IsCertifiedOrganic}" Value="True">
+															<Setter Property="Text" Value="Organic"/>
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</TextBlock.Style>
+										</TextBlock>
+									</Border>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Action" Width="80">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Button Style="{StaticResource RowAction}" Content="⋯"
+                                            Command="{Binding DataContext.EditRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"/>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Border>
+		</DockPanel>
+
+		<!-- Edit overlay -->
+		<Grid Background="#66000000" Visibility="{Binding IsEditing, Converter={StaticResource BoolToVis}}">
+			<Border Style="{StaticResource Card}" Width="440" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="24">
+				<StackPanel>
+					<TextBlock Text="Farmer / Plantation" Style="{StaticResource H2}" Margin="0,0,0,4"/>
+					<TextBlock Text="FULL NAME" Style="{StaticResource FieldLabel}"/>
+					<TextBox Text="{Binding Selected.FullName, UpdateSourceTrigger=PropertyChanged}"/>
+					<TextBlock Text="FARM / SECTION NAME" Style="{StaticResource FieldLabel}"/>
+					<TextBox Text="{Binding Selected.FarmName, UpdateSourceTrigger=PropertyChanged}"/>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0" Margin="0,0,6,0">
+							<TextBlock Text="REGION" Style="{StaticResource FieldLabel}"/>
+							<TextBox Text="{Binding Selected.Region, UpdateSourceTrigger=PropertyChanged}"/>
+						</StackPanel>
+						<StackPanel Grid.Column="1" Margin="6,0,0,0">
+							<TextBlock Text="FARM SIZE (ACRES)" Style="{StaticResource FieldLabel}"/>
+							<TextBox Text="{Binding Selected.FarmSizeAcres, UpdateSourceTrigger=PropertyChanged}"/>
+						</StackPanel>
+					</Grid>
+					<TextBlock Text="PRIMARY CROPS" Style="{StaticResource FieldLabel}"/>
+					<TextBox Text="{Binding Selected.PrimaryCrops, UpdateSourceTrigger=PropertyChanged}"/>
+					<TextBlock Text="PHONE" Style="{StaticResource FieldLabel}"/>
+					<TextBox Text="{Binding Selected.Phone, UpdateSourceTrigger=PropertyChanged}"/>
+					<CheckBox Content="Certified Organic" Margin="2,12,0,0" IsChecked="{Binding Selected.IsCertifiedOrganic}"/>
+					<Grid Margin="0,18,0,0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="Auto"/>
+						</Grid.ColumnDefinitions>
+						<Button Grid.Column="0" Content="Delete" Style="{StaticResource GhostButton}"
+                                Foreground="{StaticResource DangerBrush}" BorderBrush="{StaticResource DangerBrush}"
+                                Command="{Binding DeleteCommand}"/>
+						<Button Grid.Column="1" Content="Cancel" Style="{StaticResource GhostButton}"
+                                HorizontalAlignment="Right" Margin="0,0,8,0" Command="{Binding CancelCommand}"/>
+						<Button Grid.Column="2" Content="Save" Style="{StaticResource PrimaryButton}" Command="{Binding SaveCommand}"/>
+					</Grid>
+				</StackPanel>
+			</Border>
+		</Grid>
+	</Grid>
+</UserControl>
