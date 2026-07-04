@@ -1,7 +1,6 @@
 ﻿using SmartSpice.Helpers;
 using SmartSpice.Models;
 using System.IO;
-using System.Windows.Controls;
 
 namespace SmartSpice.Data;
 
