@@ -6,6 +6,22 @@ using SmartSpice.Models;
 
 namespace SmartSpice.Helpers;
 
+/// <summary>true → Visible, false → Collapsed (inverse of the built-in converter).</summary>
+/// <summary>
+/// Visible when the value is "falsy": false, or null for object bindings.
+/// Lets the same converter drive both bool flags and null-checks.
+/// </summary>
+public class InverseBoolToVisibilityConverter : IValueConverter
+{
+    public object Convert(object value, Type t, object p, CultureInfo c)
+    {
+        bool truthy = value is bool b ? b : value != null;
+        return truthy ? Visibility.Collapsed : Visibility.Visible;
+    }
+    public object ConvertBack(object value, Type t, object p, CultureInfo c)
+        => throw new NotSupportedException();
+}
+
 /// <summary>Visible when the value is "truthy": true, or a non-null object.</summary>
 public class BoolToVisibilityConverter : IValueConverter
 {
@@ -79,6 +95,18 @@ public class SeverityToBrushConverter : IValueConverter
             _ => Color.FromRgb(0x15, 0x65, 0xC0),
         } : Color.FromRgb(0x15, 0x65, 0xC0);
         return new SolidColorBrush(color);
+    }
+    public object ConvertBack(object value, Type t, object p, CultureInfo c)
+        => throw new NotSupportedException();
+}
+
+/// <summary>Hex string → SolidColorBrush (for KPI accents).</summary>
+public class HexToBrushConverter : IValueConverter
+{
+    public object Convert(object value, Type t, object p, CultureInfo c)
+    {
+        try { return new SolidColorBrush((Color)ColorConverter.ConvertFromString(value?.ToString() ?? "#2E7D32")); }
+        catch { return Brushes.Gray; }
     }
     public object ConvertBack(object value, Type t, object p, CultureInfo c)
         => throw new NotSupportedException();
