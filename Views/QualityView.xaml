@@ -173,7 +173,7 @@
                             <TextBlock Text="{Binding DetailInspection.CertificateNo}" Style="{StaticResource Caption}"/>
                         </StackPanel>
                         <Button Content="✕" Style="{StaticResource RowAction}" HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Command="{Binding CloseDetailCommand}"/>
+                        Command="{Binding CloseDetailCommand}"/>
                     </Grid>
 
                     <Grid Margin="0,6,0,0">
@@ -186,7 +186,7 @@
                             <TextBlock Text="{Binding DetailInspection.Batch.BatchCode}" FontWeight="SemiBold" FontSize="15"/>
                         </StackPanel>
                         <Border Grid.Column="1" CornerRadius="8" Padding="11,4" VerticalAlignment="Center"
-                                Background="{Binding DetailInspection.Grade, Converter={StaticResource GradeToBrush}}">
+                        Background="{Binding DetailInspection.Grade, Converter={StaticResource GradeToBrush}}">
                             <TextBlock Text="{Binding DetailInspection.Grade, StringFormat=Grade {0}}" Foreground="White" FontWeight="Bold"/>
                         </Border>
                     </Grid>
@@ -209,15 +209,15 @@
                     <Grid Margin="0,8,0,0">
                         <TextBlock Text="Food safety" Style="{StaticResource Caption}" VerticalAlignment="Center"/>
                         <Border Style="{StaticResource StatusPill}" HorizontalAlignment="Right"
-                                Background="{Binding DetailInspection.ResultText, Converter={StaticResource StatusBrush}, ConverterParameter=bg}">
+                        Background="{Binding DetailInspection.ResultText, Converter={StaticResource StatusBrush}, ConverterParameter=bg}">
                             <TextBlock Text="{Binding DetailInspection.ResultText}" FontSize="11.5" FontWeight="SemiBold"
-                                       Foreground="{Binding DetailInspection.ResultText, Converter={StaticResource StatusBrush}}"/>
+                               Foreground="{Binding DetailInspection.ResultText, Converter={StaticResource StatusBrush}}"/>
                         </Border>
                     </Grid>
                     <Grid Margin="0,8,0,0">
                         <TextBlock Text="Export approved" Style="{StaticResource Caption}" VerticalAlignment="Center"/>
                         <TextBlock HorizontalAlignment="Right" FontWeight="SemiBold"
-                                   Foreground="{Binding DetailInspection.ExportApproved, Converter={StaticResource BoolToStatusBrush}}">
+                           Foreground="{Binding DetailInspection.ExportApproved, Converter={StaticResource BoolToStatusBrush}}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="Text" Value="No"/>
