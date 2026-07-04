@@ -1,4 +1,4 @@
-<UserControl x:Class="SmartSpice.Views.NotificationsView"
+﻿<UserControl x:Class="SmartSpice.Views.NotificationsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Border Style="{StaticResource Card}" Margin="22">
