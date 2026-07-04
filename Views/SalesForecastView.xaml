@@ -10,8 +10,7 @@
                            Style="{StaticResource Caption}" FontSize="13"/>
             </StackPanel>
 
-            <!-- High-season warning -->  
-            
+            <!-- High-season warning -->
             <Border Style="{StaticResource Card}" Background="#FFF3E0" BorderThickness="0"
                     Visibility="{Binding HasWarning, Converter={StaticResource BoolToVis}}">
                 <StackPanel Orientation="Horizontal">
