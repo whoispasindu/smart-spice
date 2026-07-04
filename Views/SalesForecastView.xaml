@@ -1,4 +1,4 @@
-<UserControl x:Class="SmartSpice.Views.SalesForecastView"
+﻿<UserControl x:Class="SmartSpice.Views.SalesForecastView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,4,20,16">
@@ -10,7 +10,8 @@
                            Style="{StaticResource Caption}" FontSize="13"/>
             </StackPanel>
 
-            <!-- High-season warning -->
+            <!-- High-season warning -->  
+            
             <Border Style="{StaticResource Card}" Background="#FFF3E0" BorderThickness="0"
                     Visibility="{Binding HasWarning, Converter={StaticResource BoolToVis}}">
                 <StackPanel Orientation="Horizontal">
