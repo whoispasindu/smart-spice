@@ -9,7 +9,6 @@ using SmartSpice.Services;
 
 namespace SmartSpice.ViewModels;
 
-
 public partial class EmployeesViewModel : ViewModelBase, ISearchable
 {
     private List<Employee> _all = new();
@@ -182,4 +181,4 @@ public partial class EmployeesViewModel : ViewModelBase, ISearchable
         LastLoginAt = s.LastLoginAt,
         CreatedAt = s.CreatedAt
     };
-}  
+}

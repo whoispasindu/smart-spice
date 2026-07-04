@@ -1,6 +1,5 @@
-﻿using System.Windows.Controls;
+﻿namespace SmartSpice.Models;
 
-namespace SmartSpice.Models;
 
 /// <summary>
 /// A customer (local or export) who places orders for processed spice.

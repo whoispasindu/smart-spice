@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace SmartSpice.Models;
+﻿namespace SmartSpice.Models;
 
 /// <summary>
 /// A traceable lot of spice moving through the processing pipeline, from farm
