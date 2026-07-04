@@ -27,7 +27,7 @@ public partial class FarmersViewModel : ViewModelBase, ISearchable
 
     public override vvoid Load() => Refresh();
 
-    public void Refresh()
+    private void Refresh()
     {
         using (var db = new SmartSpiceContext())
             _all = db.Farmers.OrderBy(f => f.Name).ToList();
@@ -94,6 +94,7 @@ public partial class FarmersViewModel : ViewModelBase, ISearchable
         }
         ServiceHub.Audit.Log(_selected.Id == 0 ? "CREATE" : "UPDATE", "Farmer", _selected.FullName);
         IsEditing = false;
+        Selected = null;
         Refresh();
     }
 
@@ -144,5 +145,5 @@ public partial class FarmersViewModel : ViewModelBase, ISearchable
         BankAccount = s.BankAccount,
         IsCertifiedOrganic = s.IsCertifiedOrganic,
         ReliabilityScore = s.ReliabilityScore
-    };
+    };  
 }
