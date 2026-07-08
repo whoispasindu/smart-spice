@@ -56,8 +56,7 @@ public partial class QualityViewModel : ViewModelBase, ISearchable
         ExportCount = _all.Count(i => i.ExportApproved);
         ApplyFilter();
 
-        // A batch is eligible for inspection only if it has never been inspected,
-        // or its most recent inspection failed food safety (needs re-inspection).
+        
         var latest = _all.GroupBy(i => i.BatchId)
             .ToDictionary(g => g.Key, g => g.OrderByDescending(i => i.InspectedAt).First());
 

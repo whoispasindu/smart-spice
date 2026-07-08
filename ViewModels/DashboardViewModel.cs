@@ -9,7 +9,6 @@ using SmartSpice.Services;
 
 namespace SmartSpice.ViewModels;
 
-// ---------- Small presentation models for the dashboard ----------
 
 public class KpiCard
 {
