@@ -21,9 +21,7 @@
         <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
     </Style>
 
-    <!-- ===================== Card =====================
-         No DropShadowEffect: a soft 1px border gives the elevated look at a
-         fraction of the render cost, keeping scrolling and tab-switching smooth. -->
+    <!-- ===================== Card ===================== -->
     <Style x:Key="Card" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
         <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
@@ -62,7 +60,7 @@
         </Setter>
     </Style>
 
-    <!-- Dark CTA (e.g. View Detailed Report) -->
+    <!-- Dark CTA  -->
     <Style x:Key="DarkButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
         <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}"/>
         <Setter Property="Padding" Value="22,12"/>

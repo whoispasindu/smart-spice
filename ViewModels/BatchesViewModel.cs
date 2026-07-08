@@ -22,7 +22,7 @@ public partial class BatchesViewModel : ViewModelBase, ISearchable
     public ObservableCollection<Farmer> Farmers { get; } = new();
     public ObservableCollection<Warehouse> Warehouses { get; } = new();
 
-    /// <summary>Only these fixed products may be added (no free-typed names).</summary>
+    
     public IReadOnlyList<string> RawProducts => SpiceCatalog.RawProducts;
 
     [ObservableProperty] private SpiceBatch? _selected;
