@@ -57,7 +57,7 @@ public class DashboardViewModel : ViewModelBase
     public ObservableCollection<BarRow> WarehouseBars { get; } = new();
     public ObservableCollection<ActivityRow> Activities { get; } = new();
 
-    // AI sales-forecast feature card (next month)
+    
     public string SalesMonthLabel { get; private set; } = "—";
     public string SalesUnits { get; private set; } = "—";
     public string SalesRevenue { get; private set; } = "—";
@@ -66,16 +66,16 @@ public class DashboardViewModel : ViewModelBase
     public bool SalesHighSeason { get; private set; }
     public string SalesWarning { get; private set; } = string.Empty;
 
-    // Donut centre
+   
     public string DonutTotal { get; private set; } = "0";
 
-    // Health gauge
+    
     public Geometry GaugeTrack { get; private set; } = Geometry.Empty;
     public Geometry GaugeValue { get; private set; } = Geometry.Empty;
     public int HealthScore { get; private set; } = 0;
     public string HealthLabel { get; private set; } = "Good";
 
-    // Insight banner
+    
     public string InsightText { get; private set; } = string.Empty;
     public string RevenueForecast { get; private set; } = "—";
     public string RevenueForecastTrend { get; private set; } = "";
@@ -108,8 +108,7 @@ public class DashboardViewModel : ViewModelBase
         BuildActivities(db);
         BuildInsight(db);
 
-        // Refresh all bindings — many dashboard values are plain (non-observable)
-        // properties set here, after the view may have already bound.
+       
         OnPropertyChanged(string.Empty);
     }
 

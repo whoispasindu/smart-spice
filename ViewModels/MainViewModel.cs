@@ -60,7 +60,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void Navigate(string key)
     {
-        // Block navigation to pages this role may not open.
+        
         if (!Session.CanAccess(key)) return;
 
         ActiveKey = key;
@@ -82,8 +82,7 @@ public partial class MainViewModel : ObservableObject
         };
         CurrentPage?.Load();
         if (!string.IsNullOrEmpty(SearchText))
-            SearchText = string.Empty; // reset filter for the new page
-        RefreshBadges();
+            SearchText = string.Empty; 
     }
 
     public void RefreshBadges()

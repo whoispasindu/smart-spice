@@ -18,7 +18,7 @@ public partial class EmployeesViewModel : ViewModelBase, ISearchable
     public ObservableCollection<Employee> Employees { get; } = new();
     public Array Roles => Enum.GetValues(typeof(UserRole));
 
-    /// <summary>Only managers/admins may add or edit staff records.</summary>
+    
     public bool CanManage => ServiceHub.Session.CanManage;
 
     [ObservableProperty] private int _totalEmployees;

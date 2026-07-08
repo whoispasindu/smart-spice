@@ -35,7 +35,7 @@
     <Color x:Key="SuccessColor">#43A047</Color>
     <Color x:Key="InfoColor">#2E7D9A</Color>
 
-    <!-- ============ Brushes ============ -->
+    <!--  = Brushes = -->
     <SolidColorBrush x:Key="PrimaryDarkBrush"  Color="{StaticResource PrimaryDarkColor}"/>
     <SolidColorBrush x:Key="PrimaryBrush"      Color="{StaticResource PrimaryColor}"/>
     <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLightColor}"/>
