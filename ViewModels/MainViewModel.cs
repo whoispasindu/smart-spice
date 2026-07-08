@@ -4,10 +4,9 @@ using SmartSpice.Services;
 
 namespace SmartSpice.ViewModels;
 
-/// <summary>
 /// The shell view-model. Owns the currently displayed page and the navigation
 /// commands, plus header info (current user, role, unread notifications).
-/// </summary>
+
 public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
@@ -37,7 +36,7 @@ public partial class MainViewModel : ObservableObject
         string.Concat(UserName.Split(' ', StringSplitOptions.RemoveEmptyEntries)
             .Take(2).Select(w => w[0])).ToUpper();
 
-    // ---- Per-role navigation visibility ----
+    // Per-role navigation visibility 
     private AppSession Session => ServiceHub.Session;
     public bool ShowDashboard => Session.CanAccess("dashboard");
     public bool ShowFarmers => Session.CanAccess("farmers");

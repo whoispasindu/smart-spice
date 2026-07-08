@@ -9,7 +9,6 @@ using SmartSpice.Services;
 
 namespace SmartSpice.ViewModels;
 
-// ---------- report row models ----------
 public class ReportMetric
 {
     public string Label { get; set; } = string.Empty;

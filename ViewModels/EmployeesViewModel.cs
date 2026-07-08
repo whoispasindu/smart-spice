@@ -74,7 +74,6 @@ public partial class EmployeesViewModel : ViewModelBase, ISearchable
         foreach (var e in q) Employees.Add(e);
     }
 
-    // ---------- detail popup ----------
     [RelayCommand]
     private void OpenDetail(Employee? emp)
     {
@@ -85,7 +84,7 @@ public partial class EmployeesViewModel : ViewModelBase, ISearchable
 
     [RelayCommand] private void CloseDetail() => IsDetail = false;
 
-    // ---------- add / edit ----------
+    //  add / edit 
     [RelayCommand]
     private void New()
     {

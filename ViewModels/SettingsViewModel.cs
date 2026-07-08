@@ -11,7 +11,6 @@ namespace SmartSpice.ViewModels;
 
 public partial class SettingsViewModel : ViewModelBase
 {
-    // section switch: "profile" | "password" | "users"
     [ObservableProperty] private string _activeSection = "profile";
 
     public bool IsAdmin => ServiceHub.Session.IsAdmin || ServiceHub.Session.CanManage;
@@ -84,7 +83,7 @@ public partial class SettingsViewModel : ViewModelBase
         MessageBox.Show("Profile updated successfully.", "Settings", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
-    // ---------- Password (called from code-behind with PasswordBox values) ----------
+    //  Password 
     public void ChangePassword(string current, string @new, string confirm)
     {
         if (string.IsNullOrWhiteSpace(current) || string.IsNullOrWhiteSpace(@new))
