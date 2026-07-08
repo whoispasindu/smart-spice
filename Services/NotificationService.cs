@@ -8,7 +8,6 @@ public interface INotificationService
     IReadOnlyList<Notification> GetAll();
     int UnreadCount();
     void MarkAllRead();
-    /// <summary>Re-scan inventory and raise a low-stock notification for any new shortages.</summary>
     void RefreshLowStockAlerts();
 }
 

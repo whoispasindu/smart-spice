@@ -6,7 +6,6 @@ using SmartSpice.Models;
 
 namespace SmartSpice.Helpers;
 
-/// <summary>Visible when the value is "truthy": true, or a non-null object.</summary>
 public class BoolToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -18,7 +17,6 @@ public class BoolToVisibilityConverter : IValueConverter
         => value is Visibility v && v == Visibility.Visible;
 }
 
-/// <summary>Multiplies a 0..1 fraction by the parameter (max width) for bar charts.</summary>
 public class FractionToWidthConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -33,7 +31,6 @@ public class FractionToWidthConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>true → green, false → red. Used for low-stock / pass-fail flags.</summary>
 public class BoolToStatusBrushConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -48,7 +45,6 @@ public class BoolToStatusBrushConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>Maps a quality grade to a representative colour.</summary>
 public class GradeToBrushConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -67,7 +63,6 @@ public class GradeToBrushConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>Maps notification severity to a colour.</summary>
 public class SeverityToBrushConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -84,7 +79,6 @@ public class SeverityToBrushConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>A numeric percent → a proportional star GridLength (for fill bars).</summary>
 public class PercentToStarConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -96,7 +90,6 @@ public class PercentToStarConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>Fill level → colour: green &lt;75%, amber &lt;90%, red otherwise.</summary>
 public class PercentToLevelBrushConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -111,7 +104,6 @@ public class PercentToLevelBrushConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>value == parameter (case-insensitive) → true (for nav highlight binding).</summary>
 public class StringEqualsToBoolConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -120,7 +112,6 @@ public class StringEqualsToBoolConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>value == parameter (case-insensitive) → Visible, else Collapsed.</summary>
 public class StringEqualsToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -130,7 +121,6 @@ public class StringEqualsToVisibilityConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>true → expanded sidebar width, false → collapsed (icon-only) width.</summary>
 public class BoolToSidebarWidthConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -139,10 +129,6 @@ public class BoolToSidebarWidthConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>
-/// Maps a status string/enum to a pill colour. ConverterParameter "bg" returns the
-/// soft background; anything else returns the strong text colour.
-/// </summary>
 public class StatusBrushConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)
@@ -173,7 +159,6 @@ public class StatusBrushConverter : IValueConverter
         => throw new NotSupportedException();
 }
 
-/// <summary>Greater-than-zero count → Visible (for badge dots).</summary>
 public class CountToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type t, object p, CultureInfo c)

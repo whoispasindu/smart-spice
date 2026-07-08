@@ -1,9 +1,6 @@
 ﻿namespace SmartSpice.Models;
 
-/// <summary>
-/// A factory employee. Inherits identity from <see cref="Person"/> and adds
-/// employment data plus the login account used for authentication.
-/// </summary>
+
 public class Employee : Person
 {
     public string EmployeeCode { get; set; } = string.Empty;

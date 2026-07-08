@@ -4,10 +4,6 @@ using System.IO;
 
 namespace SmartSpice.Data;
 
-/// <summary>
-/// Creates the database (if missing) and populates realistic demo data so every
-/// screen is meaningful the first time the app is launched.
-/// </summary>
 public static class DbSeeder
 {
     public static void EnsureSeeded(SmartSpiceContext db)
@@ -244,18 +240,10 @@ public static class DbSeeder
         SeedSalesHistory(db);
     }
 
-    /// <summary>
-    /// Probes a column added in a later version; if the query fails, the database
-    /// predates the change and must be rebuilt.
-    /// </summary>
-    /// <summary>
-    /// True when an existing database is missing newer columns/tables and must be
-    /// rebuilt. Uses its own short-lived context so the main one stays clean.
-    /// </summary>
     private static bool DatabaseIsStale()
     {
         using var probe = new SmartSpiceContext();
-        if (!probe.Database.CanConnect()) return false;   // no database yet — fresh create handles it
+        if (!probe.Database.CanConnect()) return false;   
         try
         {
             _ = probe.SpiceBatches.Select(b => b.DryingHours).FirstOrDefault();
@@ -268,7 +256,7 @@ public static class DbSeeder
         }
     }
 
-    /// <summary>Imports the company's monthly sales history from the bundled CSV.</summary>
+   
     private static void SeedSalesHistory(SmartSpiceContext db)
     {
         var path = Path.Combine(AppContext.BaseDirectory, "Assets", "Data", "sales_monthly.csv");
@@ -309,7 +297,7 @@ public static class DbSeeder
         Phone = "0770000000"
     };
 
-    /// <summary>Rough per-kg price by product/powder name.</summary>
+   
     private static decimal PriceOf(string name) => name switch
     {
         var n when n.Contains("Cardamom") => 7000m,

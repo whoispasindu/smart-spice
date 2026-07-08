@@ -1,9 +1,6 @@
 ﻿namespace SmartSpice.Models;
 
-/// <summary>
-/// One month of aggregated sales for a product — the historical data the AI
-/// sales-prediction model is trained on (imported from the company's 3-year records).
-/// </summary>
+
 public class SalesRecord
 {
     public int Id { get; set; }

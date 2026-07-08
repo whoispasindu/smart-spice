@@ -6,14 +6,11 @@ namespace SmartSpice.Services;
 
 public interface IAuthService
 {
-    /// <summary>Returns the authenticated employee, or null on bad credentials.</summary>
     Employee? Login(string username, string password);
     void Logout();
 }
 
-/// <summary>
-/// Custom exception demonstrating graceful, typed error handling.
-/// </summary>
+
 public class AuthenticationException : Exception
 {
     public AuthenticationException(string message) : base(message) { }

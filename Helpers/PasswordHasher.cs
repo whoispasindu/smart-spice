@@ -3,11 +3,6 @@ using System.Text;
 
 namespace SmartSpice.Helpers;
 
-/// <summary>
-/// Salted SHA-256 password hashing. Format stored: {base64Salt}:{base64Hash}.
-/// (For a production system PBKDF2/bcrypt would be preferred; this keeps the
-/// prototype dependency-free while still never storing plaintext.)
-/// </summary>
 public static class PasswordHasher
 {
     public static string Hash(string password)

@@ -56,12 +56,7 @@ public interface ISalesForecastService
     OverallForecast NextMonthOverall();
 }
 
-/// <summary>
-/// Time-series sales forecaster. For each product it fits a linear <b>trend</b> plus
-/// multiplicative <b>monthly seasonal indices</b> on the company's 3-year history
-/// (classical decomposition), then projects the next months. The seasonal indices are
-/// what let it flag an upcoming high-demand month so stock can be prepared.
-/// </summary>
+
 public class SalesForecastService : ISalesForecastService
 {
     private const double HighSeasonThreshold = 1.12;   // 12% above the seasonal average
@@ -202,7 +197,6 @@ public class SalesForecastService : ISalesForecastService
         return (slope, intercept);
     }
 
-    /// <summary>Average actual/trend ratio per calendar month, normalised to mean 1.</summary>
     private static double[] SeasonalIndices(IReadOnlyList<int> months, IReadOnlyList<double> y, double slope, double intercept)
     {
         var sum = new double[13];

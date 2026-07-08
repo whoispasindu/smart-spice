@@ -1,8 +1,5 @@
 ﻿namespace SmartSpice.Models;
 
-/// <summary>
-/// A system alert surfaced to the user (low stock, expiry, quality, shipment).
-/// </summary>
 public class Notification
 {
     public int Id { get; set; }

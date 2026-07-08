@@ -2,9 +2,6 @@
 
 namespace SmartSpice.Models;
 
-/// <summary>
-/// A customer (local or export) who places orders for processed spice.
-/// </summary>
 public class Buyer : Person
 {
     public string CompanyName { get; set; } = string.Empty;

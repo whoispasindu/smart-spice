@@ -5,9 +5,6 @@ using Microsoft.Win32;
 
 namespace SmartSpice.Helpers;
 
-/// <summary>
-/// Exports a tabular report to a CSV file the user chooses via a Save dialog.
-/// </summary>
 public static class CsvExporter
 {
     public static void Export(string suggestedFileName, IList<string> headers, IEnumerable<IList<string>> rows)

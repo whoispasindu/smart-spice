@@ -1,9 +1,5 @@
 ﻿namespace SmartSpice.Models;
 
-/// <summary>
-/// A purchase order from a buyer, linked to the production batches that fulfil it
-/// for end-to-end food-safety traceability.
-/// </summary>
 public class Order
 {
     public int Id { get; set; }
@@ -24,7 +20,6 @@ public class Order
     public double TotalWeightKg => Items?.Sum(i => i.QuantityKg) ?? 0;
 }
 
-/// <summary>A single line on an order.</summary>
 public class OrderItem
 {
     public int Id { get; set; }
@@ -35,7 +30,6 @@ public class OrderItem
     public int OrderId { get; set; }
     public Order? Order { get; set; }
 
-    /// <summary>Source batch linking this sale back to a production lot (traceability).</summary>
     public int? SourceBatchId { get; set; }
 
     public decimal LineTotal => (decimal)QuantityKg * UnitPricePerKg;

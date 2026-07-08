@@ -1,10 +1,5 @@
 ﻿namespace SmartSpice.Models;
 
-/// <summary>
-/// A single processing operation (cleaning, drying, grinding...) applied to a batch.
-/// Captures weight before/after so yield loss is tracked at every stage and mapped
-/// to the operator who performed it.
-/// </summary>
 public class ProcessingRecord
 {
     public int Id { get; set; }

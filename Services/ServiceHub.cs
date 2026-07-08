@@ -1,10 +1,6 @@
 namespace SmartSpice.Services;
 
-/// <summary>
-/// Minimal composition root / service locator. Wires the shared service instances
-/// once at startup so views and view-models can resolve their dependencies without
-/// a heavyweight DI container.
-/// </summary>
+
 public static class ServiceHub
 {
     public static AppSession Session { get; } = new();

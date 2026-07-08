@@ -1,8 +1,5 @@
 ﻿namespace SmartSpice.Models;
 
-/// <summary>
-/// Role-based access control levels for the system.
-/// </summary>
 public enum UserRole
 {
     Administrator,
@@ -12,9 +9,7 @@ public enum UserRole
     SalesOfficer
 }
 
-/// <summary>
-/// Distinguishes raw agricultural input from finished processed powder.
-/// </summary>
+
 public enum InventoryCategory
 {
     RawMaterial,
@@ -22,10 +17,6 @@ public enum InventoryCategory
     Packaging
 }
 
-/// <summary>
-/// The lifecycle stage of a spice batch as it moves through the pipeline.
-/// Mirrors the business workflow described in the proposal.
-/// </summary>
 public enum BatchStatus
 {
     Collected,
@@ -38,9 +29,6 @@ public enum BatchStatus
     Dispatched
 }
 
-/// <summary>
-/// Quality grade assigned during inspection or predicted by the AI model.
-/// </summary>
 public enum QualityGrade
 {
     A,
